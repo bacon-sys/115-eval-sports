@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>活動成效報告｜大同國中 × 泰雅族實驗教育</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1714;
+    --ink-soft: #3d3830;
+    --ink-muted: #7a7369;
+    --ink-faint: #b8b0a6;
+    --paper: #f7f3ee;
+    --paper-warm: #ede8e0;
+    --paper-card: #faf7f3;
+    --accent: #8b5e3c;
+    --accent-light: #c4946a;
+    --accent-bg: #f2e8dc;
+    --green-main: #3a7d5e;
+    --green-light: #7ab89a;
+    --green-pale: #d4ece0;
+    --blue-main: #3b6fa0;
+    --blue-light: #7aafd4;
+    --blue-pale: #d4e6f5;
+    --purple-main: #6b4d9e;
+    --purple-light: #a98cd4;
+    --purple-pale: #e8dff5;
+    --border: rgba(26,23,20,0.12);
+    --shadow: 0 2px 20px rgba(26,23,20,0.08);
+    --shadow-lg: 0 8px 40px rgba(26,23,20,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── page bg texture ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(139,94,60,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(58,125,94,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .header-deco {
+    flex-shrink: 0;
+    width: 4px;
+    height: 80px;
+    background: linear-gradient(to bottom, var(--accent), var(--green-main));
+    border-radius: 2px;
+    margin-top: 4px;
+  }
+
+  .header-text { flex: 1; }
+
+  .eyebrow {
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+
+  h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-meta {
+    font-size: 16px;
+    color: var(--ink-muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.2rem;
+  }
+
+  .meta-item { display: flex; align-items: center; gap: 5px; }
+  .meta-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--ink-faint); flex-shrink: 0; }
+
+  /* ── SECTION LABEL ── */
+  .section {
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    color: var(--accent-light);
+    min-width: 24px;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── KPI CARDS ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .kpi-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem 1.1rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .kpi-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .kpi-card.k-amber::before { background: linear-gradient(90deg, var(--accent), var(--accent-light)); }
+  .kpi-card.k-green::before { background: linear-gradient(90deg, var(--green-main), var(--green-light)); }
+  .kpi-card.k-blue::before { background: linear-gradient(90deg, var(--blue-main), var(--blue-light)); }
+  .kpi-card.k-purple::before { background: linear-gradient(90deg, var(--purple-main), var(--purple-light)); }
+
+  .kpi-big {
+    font-family: 'DM Serif Display', serif;
+    font-size: 50px;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .kpi-big .kpi-unit { font-size: 22px; }
+
+  .kpi-label {
+    font-size: 15px;
+    color: var(--ink-muted);
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .kpi-tag {
+    display: inline-block;
+    font-size: 13px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .tag-amber { background: var(--accent-bg); color: var(--accent); }
+  .tag-green { background: var(--green-pale); color: var(--green-main); }
+  .tag-blue { background: var(--blue-pale); color: var(--blue-main); }
+  .tag-purple { background: var(--purple-pale); color: var(--purple-main); }
+
+  /* ── CHARTS GRID ── */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 580px) {
+    .charts-grid { grid-template-columns: 1fr; }
+  }
+
+  .chart-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem 1.25rem;
+    transition: box-shadow 0.2s;
+  }
+
+  .chart-card:hover { box-shadow: var(--shadow); }
+
+  .chart-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .chart-title-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* bar chart */
+  .bar-chart { display: flex; flex-direction: column; gap: 10px; }
+
+  .bar-row { display: flex; align-items: center; gap: 8px; }
+
+  .bar-name {
+    font-size: 14px;
+    color: var(--ink-muted);
+    min-width: 80px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 22px;
+    background: var(--paper-warm);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 0 7px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: width 1s cubic-bezier(0.25,1,0.5,1);
+  }
+
+  /* donut */
+  .donut-layout { display: flex; align-items: center; gap: 14px; }
+  .donut-canvas-wrap { flex-shrink: 0; width: 100px; height: 100px; position: relative; }
+  .donut-canvas-wrap canvas { width: 100px !important; height: 100px !important; }
+  .donut-legend { flex: 1; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-muted); margin-bottom: 6px; }
+  .legend-swatch { width: 11px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+
+  /* ── FINDINGS ── */
+  .findings-list { display: flex; flex-direction: column; gap: 0; }
+
+  .finding-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .finding-item:last-child { border-bottom: none; }
+
+  .finding-icon-wrap {
+    flex-shrink: 0;
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-top: 2px;
+  }
+
+  .icon-amber { background: var(--accent-bg); }
+  .icon-green { background: var(--green-pale); }
+  .icon-blue { background: var(--blue-pale); }
+  .icon-purple { background: var(--purple-pale); }
+  .icon-red { background: #fde8e8; }
+
+  .finding-body { flex: 1; }
+
+  .finding-title {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .finding-desc {
+    font-size: 15px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  .report-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--ink-faint);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .school-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── ANIMATION ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section:nth-child(1) { animation-delay: 0.05s; }
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.15s; }
+  .section:nth-child(4) { animation-delay: 0.2s; }
+  .section:nth-child(5) { animation-delay: 0.25s; }
+
+  .bar-fill { width: 0 !important; }
+  .bars-loaded .bar-fill { width: var(--target-w) !important; }
+
+  /* print */
+  @media print {
+    body::before { display: none; }
+    .page-wrap { padding: 1rem; max-width: 100%; }
+    .kpi-card, .chart-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-deco"></div>
+    <div class="header-text">
+      <div class="eyebrow">宜蘭縣大同國民中學</div>
+      <h1>村校聯運宣傳攤位<br>活動成效報告</h1>
+      <div class="header-meta">
+        <span class="meta-item">
+          <span class="meta-dot"></span>
+          2026 年 5 月 9 日
+        </span>
+        <span class="meta-item">
+          <span class="meta-dot"></span>
+          四季、南山村校聯合運動會
+        </span>
+        <span class="meta-item">
+          <span class="meta-dot"></span>
+          問卷回收 98 份
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- SECTION 1: KPI -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">核心 KPI 總覽</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card k-amber">
+        <div class="kpi-big">98<span class="kpi-unit"> 份</span></div>
+        <div class="kpi-label">問卷回收總數</div>
+        <span class="kpi-tag tag-amber">線上問卷填答</span>
+      </div>
+      <div class="kpi-card k-green">
+        <div class="kpi-big">95.9<span class="kpi-unit">%</span></div>
+        <div class="kpi-label">攤位體驗滿意度</div>
+        <span class="kpi-tag tag-green">很有趣，想多了解</span>
+      </div>
+      <div class="kpi-card k-blue">
+        <div class="kpi-big">96.9<span class="kpi-unit">%</span></div>
+        <div class="kpi-label">文化課程社區認同度</div>
+        <span class="kpi-tag tag-blue">認同學校文化教育</span>
+      </div>
+      <div class="kpi-card k-purple">
+        <div class="kpi-big">92.9<span class="kpi-unit">%</span></div>
+        <div class="kpi-label">實驗教育理解提升</div>
+        <span class="kpi-tag tag-purple">有，更了解了</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: 參與者 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">參與者基本資料</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="charts-grid">
+
+      <div class="chart-card">
+        <div class="chart-title">
+          <span class="chart-title-dot" style="background:var(--blue-main)"></span>
+          參與者身分組成
+        </div>
+        <div class="bar-chart" id="bars-identity">
+          <div class="bar-row">
+            <span class="bar-name">部落居民</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:66.3%;background:#3b6fa0;color:#fff;">65 人 66.3%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">家長</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:24.5%;background:#7aafd4;color:#1a3a50;">24 人 24.5%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">其他</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:9.2%;background:#d4e6f5;color:#3b6fa0;">9 人</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">
+          <span class="chart-title-dot" style="background:var(--green-main)"></span>
+          來源部落分布
+        </div>
+        <div class="bar-chart" id="bars-tribe">
+          <div class="bar-row">
+            <span class="bar-name">南山</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:52.5%;background:#3a7d5e;color:#fff;">42 人 52.5%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">四季</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:30%;background:#7ab89a;color:#1a4030;">24 人 30%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">其他</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:10%;background:#b5d9c8;color:#2a6040;"> 8 人</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">茂安</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:5%;background:#d4ece0;color:#3a7d5e;"> 4</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">英士</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:1.3%;background:#e8f5ee;color:#3a7d5e;"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3: KPI 各題 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">各 KPI 題目統計</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="charts-grid">
+
+      <!-- 事前知悉 -->
+      <div class="chart-card">
+        <div class="chart-title">
+          <span class="chart-title-dot" style="background:var(--blue-main)"></span>
+          事前知悉度
+        </div>
+        <div class="donut-layout">
+          <div class="donut-canvas-wrap">
+            <canvas id="d-aware" role="img" aria-label="事前知悉度：知道 89 人（90.8%），不知道 9 人（9.2%）"></canvas>
+          </div>
+          <div class="donut-legend">
+            <div class="legend-item"><div class="legend-swatch" style="background:#3b6fa0"></div>知道 — 89 人（90.8%）</div>
+            <div class="legend-item"><div class="legend-swatch" style="background:#d4e6f5"></div>不知道 — 9 人（9.2%）</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 攤位感受 -->
+      <div class="chart-card">
+        <div class="chart-title">
+          <span class="chart-title-dot" style="background:var(--accent)"></span>
+          攤位體驗感受
+        </div>
+        <div class="bar-chart" id="bars-exp">
+          <div class="bar-row">
+            <span class="bar-name">很有趣</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:95.9%;background:#8b5e3c;color:#fff;">94 人 95.9%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">還好</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:4.1%;background:#c4946a;color:#4a2a10;"> 4</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">沒感覺</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:0%;background:#f2e8dc;color:#8b5e3c;"> 0</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 最感興趣 -->
+      <div class="chart-card">
+        <div class="chart-title">
+          <span class="chart-title-dot" style="background:var(--purple-main)"></span>
+          最感興趣的主題
+        </div>
+        <div class="bar-chart" id="bars-interest">
+          <div class="bar-row">
+            <span class="bar-name">泰雅文化課程</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:67.3%;background:#6b4d9e;color:#fff;">66 人 67.3%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">學生作品</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:21.4%;background:#a98cd4;color:#fff;">21 人 21.4%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">其他</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:6.1%;background:#cebef0;color:#4a2a80;"> 6</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">學校影片</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:5.1%;background:#e8dff5;color:#6b4d9e;"> 5</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 文化課程認同 -->
+      <div class="chart-card">
+        <div class="chart-title">
+          <span class="chart-title-dot" style="background:var(--green-main)"></span>
+          文化課程認同度
+        </div>
+        <div class="donut-layout">
+          <div class="donut-canvas-wrap">
+            <canvas id="d-culture" role="img" aria-label="文化課程認同度：認同 95 人（96.9%），普通 3 人（3.1%），不認同 0 人（0%）"></canvas>
+          </div>
+          <div class="donut-legend">
+            <div class="legend-item"><div class="legend-swatch" style="background:#3a7d5e"></div>認同 — 95 人（96.9%）</div>
+            <div class="legend-item"><div class="legend-swatch" style="background:#a0ccb8"></div>普通 — 3 人（3.1%）</div>
+            <div class="legend-item"><div class="legend-swatch" style="background:#d4ece0"></div>不認同 — 0 人（0%）</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 實驗教育理解 -->
+      <div class="chart-card" style="grid-column: 1 / -1;">
+        <div class="chart-title">
+          <span class="chart-title-dot" style="background:var(--green-main)"></span>
+          聽完之後對實驗教育的理解提升
+        </div>
+        <div class="bar-chart" id="bars-understand">
+          <div class="bar-row">
+            <span class="bar-name">有，更了解了</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:92.9%;background:#3a7d5e;color:#fff;">91 人 — 92.9%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">還好</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:6.1%;background:#7ab89a;color:#1a4030;"> 6 人 — 6.1%</div></div>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">還是不清楚</span>
+            <div class="bar-track"><div class="bar-fill" style="--target-w:1%;background:#d4ece0;color:#3a7d5e;"> 1</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 4: 綜合評估 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">綜合評估與學校推動意涵</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="findings-list">
+      <div class="finding-item">
+        <div class="finding-icon-wrap icon-blue">👥</div>
+        <div class="finding-body">
+          <div class="finding-title">觸及廣度</div>
+          <div class="finding-desc">問卷回收 98 份，受訪者以部落居民（66.3%）與家長（24.5%）為主，精準觸及招生目標族群，且同時覆蓋大同鄉各主要部落。</div>
+        </div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-icon-wrap icon-green">❤️</div>
+        <div class="finding-body">
+          <div class="finding-title">社區認同</div>
+          <div class="finding-desc">96.9% 認同學校推動文化課程，且無人持反對意見，反映學校長期深耕原住民族教育已在部落社區建立深厚信任基礎，辦學方向與部落期待高度一致。</div>
+        </div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-icon-wrap icon-amber">💡</div>
+        <div class="finding-body">
+          <div class="finding-title">宣傳成效</div>
+          <div class="finding-desc">92.9% 表示透過攤位對實驗教育有更深認識，且高達 95.9% 感覺很有趣、想多了解，顯示本次宣傳活動不只是招生接觸，更有效達到實驗教育推廣的教育目標。</div>
+        </div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-icon-wrap icon-purple">⭐</div>
+        <div class="finding-body">
+          <div class="finding-title">文化課程最受關注</div>
+          <div class="finding-desc">泰雅文化課程（67.3%）與學生作品（21.4%）合計吸引 88.7% 的關注，反映部落民眾最在意學校的文化紮根工作，與學校辦學核心高度呼應。</div>
+        </div>
+      </div>
+      <div class="finding-item">
+        <div class="finding-icon-wrap icon-red">📍</div>
+        <div class="finding-body">
+          <div class="finding-title">新觸及人群</div>
+          <div class="finding-desc">有 9 人（9.2%）過去從未聽說學校推動實驗教育，透過本次活動首次建立連結，具體展現對外推廣的實質效益，亦可作為後續追蹤對象。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="report-footer">
+    <div>
+      資料來源：Notion 問卷資料庫「村校聯運宣傳攤位｜回饋問卷（KPI）」<br>
+      問卷採線上填答，於 2026 年 5 月 9 日活動當日蒐集
+    </div>
+    <div class="school-badge">大同國民中學 × 泰雅族實驗教育</div>
+  </footer>
+
+</div>
+
+<script>
+// draw donuts
+Chart.defaults.animation = false;
+
+function donut(id, data, colors) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data,
+        backgroundColor: colors,
+        borderWidth: 2,
+        borderColor: '#faf7f3',
+        hoverOffset: 4
+      }]
+    },
+    options: {
+      responsive: false,
+      cutout: '62%',
+      plugins: { legend: { display: false }, tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.parsed} 人`
+        }
+      }}
+    }
+  });
+}
+
+donut('d-aware', [89, 9], ['#3b6fa0', '#d4e6f5']);
+donut('d-culture', [95, 3, 0.001], ['#3a7d5e', '#a0ccb8', '#d4ece0']);
+
+// animate bars after a short delay
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelectorAll('.bar-chart').forEach(chart => {
+      chart.classList.add('bars-loaded');
+    });
+    document.querySelectorAll('.bar-fill').forEach(el => {
+      el.style.width = el.style.getPropertyValue('--target-w') || '0%';
+    });
+  }, 200);
+});
+</script>
+</body>
+</html>
